@@ -6,6 +6,7 @@
 <script>
     function EditEmployee(empID) {
         console.log(empID);
+        $("#btnSubmit").val("update");
         $.ajax({
             type: 'POST',
             url: 'Home/Update',
@@ -20,7 +21,7 @@
                 $("#txtEmpMmobNum").val(response.mobileNum);
                 $("#txtEmailID").val(response.emailID);
                 //$("#txtDOB").val('1990/02/02');
-                $("#txtDOB").val([response.dob]);
+                $("#txtDOB").val(response.dob);
                 $("input[name=gender]").val([response.gender]);
                 $("#txtEmpPlace").val(response.place);
                 $("#ddlDepartment").val(response.department).trigger('change');
@@ -66,7 +67,7 @@
             </div>
             <div class="row mt-3">
                 <div class="col-3">
-                    <input type="submit" class="btn btn-success" value="submit" />
+                    <input id="btnSubmit" type="submit" name="submit" class="btn btn-success" value="save" />
                 </div>
             </div>
         </form>

@@ -12,10 +12,15 @@ namespace EmployeeAPP.Controllers
     public class HomeController : Controller
     {
         private SQLManager sqlManager;
+        SqlConnection Connection;
+        SqlDataAdapter SqlDataAdapter;
+        SqlCommand Command;
+        string ConncetionString;
 
         public HomeController(IConfiguration configuration)
         {
             sqlManager = new SQLManager(configuration);
+            ConncetionString = configuration["ConnectionStrings:MSSQLConnectionString"]; 
         }
 
         public IActionResult Index()
@@ -52,36 +57,72 @@ namespace EmployeeAPP.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(EmployeeModel ObjEmployeeModel)
+        public IActionResult Index(EmployeeModel ObjEmployeeModel, string submit)
         {
-            var parameters = new DynamicParameters(
-                new
+            if (submit != null)
+            {
+                if (submit == "save")
                 {
-                    EventID = 1,
-                    chvEmployeeName = ObjEmployeeModel.EmployeeName,
-                    chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
-                    chvEmployeeEmail = ObjEmployeeModel.EmailID,
-                    tnyEmployeeGender = ObjEmployeeModel.Gender,
-                    chvEmployeeDepartment = ObjEmployeeModel.Department,
-                    chvEmployeePlace = ObjEmployeeModel.Place,
-                    chvEmployeeDOB = ObjEmployeeModel.DOB,
-                });
-            sqlManager.Execute("[dbo].[spEmployeeMasterTransactions]", parameters);
-            ObjEmployeeModel.SuccessRate = 1;
-            ModelState.Clear();
-            ObjEmployeeModel = FetchEmployeeData();
-            FetchDepartmentList(ObjEmployeeModel);
+                    var parameters = new DynamicParameters(
+                                new
+                                {
+                                    EventID = 1,
+                                    chvEmployeeName = ObjEmployeeModel.EmployeeName,
+                                    chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
+                                    chvEmployeeEmail = ObjEmployeeModel.EmailID,
+                                    tnyEmployeeGender = ObjEmployeeModel.Gender,
+                                    chvEmployeeDepartment = ObjEmployeeModel.Department,
+                                    chvEmployeePlace = ObjEmployeeModel.Place,
+                                    chvEmployeeDOB = ObjEmployeeModel.DOB,
+                                });
+                    var obj = sqlManager.Execute("[dbo].[spEmployeeMasterTransactions]", parameters);
+                    ObjEmployeeModel.SuccessRate = 1;
+                    ModelState.Clear();
+                    ObjEmployeeModel = FetchEmployeeData();
+                    FetchDepartmentList(ObjEmployeeModel); 
+                }
+                else if(submit == "update")
+                {
+                    var parameters = new DynamicParameters(
+                        new
+                        {
+                            EventId = 2,
+                            chvEmployeeName = ObjEmployeeModel.EmployeeName,
+                            chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
+                            chvEmployeeEmail = ObjEmployeeModel.EmailID,
+                            tnyEmployeeGender = ObjEmployeeModel.Gender,
+                            chvEmployeeDepartment = ObjEmployeeModel.Department,
+                            chvEmployeePlace = ObjEmployeeModel.Place,
+                            chvEmployeeDOB = ObjEmployeeModel.DOB,
+                        });
+                    using(Connection = new SqlConnection(ConncetionString))
+                    {
+                        try
+                        {
+                            Connection.Open();
+                            var Obj = Connection.Execute("[dbo].[spEmployeeMasterTransactions]", parameters, commandType: CommandType.StoredProcedure);
+                        }
+                        catch (Exception)
+                        {
+                            throw;
+                        }
+                        finally
+                        {
+                            Connection.Close();
+                        }
+                    }
+                }
+            }
             return View(ObjEmployeeModel);
         }
 
-        public JsonResult Update(int EmployeeID)
+        public JsonResult Update(EmployeeModel ObjEmployeeModel)
         {
-            EmployeeModel ObjEmployeeModel = new EmployeeModel();
             var parameters = new DynamicParameters(
                new
                {
                    EventID = 2,
-                   EmployeeID = EmployeeID
+                   EmployeeID = ObjEmployeeModel.EmployeeID
                });
 
             var param = new List<SqlParameter>
@@ -95,7 +136,7 @@ namespace EmployeeAPP.Controllers
                 new SqlParameter
                 {
                     ParameterName= "@EmployeeID",
-                    Value   = EmployeeID,
+                    Value   = ObjEmployeeModel.EmployeeID,
                     SqlDbType= SqlDbType.Int,
                 }
             };

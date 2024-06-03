@@ -13,8 +13,8 @@ namespace EmployeeAPP.Models
         public string? Place { get; set; }
         public string? Department { get; set; }
         public int? SuccessRate { get; set; }
-        public List<EmployeeList> EmployeeListView { get; set; }
-        public List<DepartmentList> DepartmentListView { get; set; }
+        public List<EmployeeList>? EmployeeListView { get; set; }
+        public List<DepartmentList>? DepartmentListView { get; set; }
     }
 
     public class EmployeeList
