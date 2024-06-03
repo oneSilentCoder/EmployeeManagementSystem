@@ -62,7 +62,7 @@ namespace EmployeeAPP.Controllers
                     chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
                     chvEmployeeEmail = ObjEmployeeModel.EmailID,
                     tnyEmployeeGender = ObjEmployeeModel.Gender,
-                    chvEmployeeDepartment = "1",
+                    chvEmployeeDepartment = ObjEmployeeModel.Department,
                     chvEmployeePlace = ObjEmployeeModel.Place,
                     chvEmployeeDOB = ObjEmployeeModel.DOB,
                 });
@@ -70,40 +70,75 @@ namespace EmployeeAPP.Controllers
             ObjEmployeeModel.SuccessRate = 1;
             ModelState.Clear();
             ObjEmployeeModel = FetchEmployeeData();
+            FetchDepartmentList(ObjEmployeeModel);
             return View(ObjEmployeeModel);
         }
 
-        public IActionResult Update(int EmployeeID)
+        public JsonResult Update(int EmployeeID)
         {
             EmployeeModel ObjEmployeeModel = new EmployeeModel();
-            ObjEmployeeModel = FetchEmployeeDataEdit();
-            return View(ObjEmployeeModel);
+            var parameters = new DynamicParameters(
+               new
+               {
+                   EventID = 2,
+                   EmployeeID = EmployeeID
+               });
+
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName= "@EventID",
+                    Value   = "2",
+                    SqlDbType= SqlDbType.Int,
+                },
+                new SqlParameter
+                {
+                    ParameterName= "@EmployeeID",
+                    Value   = EmployeeID,
+                    SqlDbType= SqlDbType.Int,
+                }
+            };
+            var dt = sqlManager.GetTable("[dbo].[spFetchEmployee]", param);
+            //ObjEmployeeModel = (EmployeeModel)sqlManager.Execute("[dbo].[spFetchEmployee]", parameters);
+            foreach(DataRow Dtr in dt.Rows)
+            {
+                ObjEmployeeModel.EmployeeID = Convert.ToInt32(Dtr["EmpID"]);
+                ObjEmployeeModel.EmployeeName = Convert.ToString(Dtr["EmpName"]);
+                ObjEmployeeModel.MobileNum = Convert.ToInt32(Dtr["EmpMobNo"]);
+                ObjEmployeeModel.EmailID = Dtr["EmpEmail"].ToString();
+                ObjEmployeeModel.Gender = Dtr["EmpGender"].ToString();
+                ObjEmployeeModel.Department = Dtr["EmpDepartment"].ToString();
+                ObjEmployeeModel.Place = Dtr["EmpPlace"].ToString();
+                ObjEmployeeModel.DOB = Dtr["EmpDOB"].ToString();
+            }
+            return Json(ObjEmployeeModel);
         }
 
-        [HttpPost]
-        public IActionResult Update(EmployeeModel ObjEmployeeModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var parameters = new DynamicParameters(
-                    new
-                    {
-                        EventID = 2,
-                        chvEmployeeName = ObjEmployeeModel.EmployeeName,
-                        chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
-                        chvEmployeeEmail = ObjEmployeeModel.EmailID,
-                        tnyEmployeeGender = "1",
-                        chvEmployeeDepartment = "1",
-                        chvEmployeePlace = ObjEmployeeModel.Place,
-                        chvEmployeeDOB = ObjEmployeeModel.DOB,
-                    });
-                sqlManager.Execute("[dbo].[spEmployeeMasterTransactions]", parameters);
-                ObjEmployeeModel.SuccessRate = 1;
-                ModelState.Clear();
-                ObjEmployeeModel = FetchEmployeeData();
-            }
-            return View(ObjEmployeeModel);
-        }
+
+        //public IActionResult Update(EmployeeModel ObjEmployeeModel)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var parameters = new DynamicParameters(
+        //            new
+        //            {
+        //                EventID = 2,
+        //                chvEmployeeName = ObjEmployeeModel.EmployeeName,
+        //                chvEmployeeMobNo = ObjEmployeeModel.MobileNum,
+        //                chvEmployeeEmail = ObjEmployeeModel.EmailID,
+        //                tnyEmployeeGender = "1",
+        //                chvEmployeeDepartment = "1",
+        //                chvEmployeePlace = ObjEmployeeModel.Place,
+        //                chvEmployeeDOB = ObjEmployeeModel.DOB,
+        //            });
+        //        sqlManager.Execute("[dbo].[spEmployeeMasterTransactions]", parameters);
+        //        ObjEmployeeModel.SuccessRate = 1;
+        //        ModelState.Clear();
+        //        ObjEmployeeModel = FetchEmployeeData();
+        //    }
+        //    return View(ObjEmployeeModel);
+        //}
 
         public EmployeeModel FetchEmployeeData()
         {
@@ -160,22 +195,28 @@ namespace EmployeeAPP.Controllers
             return ObjEmployeeModel;
         }
 
-        public EmployeeModel FetchEmployeeDataEdit()
-        {
-            EmployeeModel ObjEmployeeModel = new EmployeeModel();
-            var param = new List<SqlParameter>
-            {
-                new SqlParameter
-                {
-                    ParameterName = "@EventID",
-                    Value = "2",
-                    SqlDbType= SqlDbType.Int,
-                }
-            };
-            var dt = sqlManager.GetTable("[dbo].[spFetchEmployee]", param);
+        //public EmployeeModel FetchEmployeeDataEdit(int EmployeeID)
+        //{
+        //    EmployeeModel ObjEmployeeModel = new EmployeeModel();
+        //    //var param = new List<SqlParameter>
+        //    //{
+        //    //    new SqlParameter
+        //    //    {
+        //    //        ParameterName = "@EventID",
+        //    //        Value = "2",
+        //    //        SqlDbType= SqlDbType.Int,
+        //    //    },
+        //    //     new SqlParameter
+        //    //     {
+        //    //         ParameterName = "@EmployeeID",
+        //    //         Value = EmployeeID,
+        //    //         SqlDbType = SqlDbType.Int,
+        //    //     }
+        //    //};
 
-            return FetchEmployeeData();
-        }
+           
+        //    return FetchEmployeeData(ObjEmployeeModel);
+        //}
 
         public IActionResult Privacy()
         {

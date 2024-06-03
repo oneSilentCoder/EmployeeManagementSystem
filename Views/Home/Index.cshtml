@@ -3,35 +3,61 @@
     ViewData["Title"] = "Home Page";
 }
 
+<script>
+    function EditEmployee(empID) {
+        console.log(empID);
+        $.ajax({
+            type: 'POST',
+            url: 'Home/Update',
+            data: {
+                EmployeeID: empID
+            },
+            success: function(response)
+            {
+                console.log(response);
+                $("#hdnEmployeeID").val(response.employeeID);
+                $("#txtEmpName").val(response.employeeName);
+                $("#txtEmpMmobNum").val(response.mobileNum);
+                $("#txtEmailID").val(response.emailID);
+                //$("#txtDOB").val('1990/02/02');
+                $("#txtDOB").val([response.dob]);
+                $("input[name=gender]").val([response.gender]);
+                $("#txtEmpPlace").val(response.place);
+                $("#ddlDepartment").val(response.department).trigger('change');
+            }
+        })
+    }
+</script>   
+
 <div class="container-fluid">
     <div class="container">
         <form method="post">
             <div class="row">
-                <input type="hidden" id="hdnEmployeeID" asp-for="EmployeeID" />
+                <input type="hidden" id="hdnEmployeeID" asp-for="EmployeeID" id="hdnEmployeeID" />
                 <div class="col-3">
                     <label class="form-label">Employee Name</label>
-                    <input type="text" class="form-control" asp-for="EmployeeName" />
+                    <input type="text" class="form-control" asp-for="EmployeeName" id="txtEmpName" />
                 </div>
                 <div class="col-3">
                     <label class="form-label">Mobile num</label>
-                    <input type="text" class="form-control" asp-for="MobileNum" maxlength="10"/>
+                    <input type="text" class="form-control" asp-for="MobileNum" maxlength="10" id="txtEmpMmobNum"/>
                 </div>
                 <div class="col-3">
                     <label class="form-label">Email</label>
-                    <input type="email" class="form-control" asp-for="EmailID" />
+                    <input type="email" class="form-control" asp-for="EmailID" id="txtEmailID"/>
                 </div>
                 <div class="col-3">
                     <label class="form-label">Date of birth</label>
-                    <input type="date" class="form-control" id="txtDob" asp-for="DOB" />
+                    <input type="date" class="form-control" id="txtDob" asp-for="DOB" id="txtDOB" />
                 </div>
                 <div class="col-3">
                     <label class="form-label">Gender</label><br />
-                    <input type="radio" name="gender" value="1" asp-for="Gender" />Male
-                    <input type="radio" name="gender" value="2" asp-for="Gender" />Female
+                    <input type="radio" name="gender" value="1" asp-for="Gender" id="rdMale"/>Male
+                    <input type="radio" name="gender" value="2" asp-for="Gender" id="rdFemale"/>Female
                 </div>
                 <div class="col-3">
                     <label class="form-label">Place</label>
-                    <input type="text" class="form-control" id="txtPlace" asp-for="Place" />
+                    <input type="text" class="form-control" asp-for="Place" id="txtEmpPlace" />
                 </div>
                 <div class="col-3">
                     <label class="form-label">Department</label>
@@ -72,7 +98,7 @@
                                         <td>@EmpData.Gender</td>
                                         <td>@EmpData.Place</td>
                                         <td>@EmpData.Department</td>
-                                        <td><a class="btn btn-success btn-sm" asp-action="Update" asp-route-id="@EmpData.EmployeeID">Edit</a></td>
+                                        <td><a class="btn btn-success btn-sm" id="EmpId" onclick="EditEmployee(@EmpData.EmployeeID);">Edit</a></td>
                                     </tr>
                                 }
                             </tbody>
