@@ -1,0 +1,31 @@
+﻿@model EmployeeAppModels.BlogPostModel
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-light bg-danger">
+                <h1>Blog Posts</h1>
+            </div>
+            <div class="col-12">
+                <ul>
+                    @if (Model.BlogPostListView != null)
+                    {
+                        @foreach (var post in Model.BlogPostListView)
+                        {
+                            <li>
+                                <strong>Title:</strong> @post.title<br />
+                                <strong>Body:</strong> @post.body
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No blog posts available.</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

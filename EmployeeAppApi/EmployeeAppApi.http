@@ -1,0 +1,6 @@
+@EmployeeAppApi_HostAddress = http://localhost:5222
+
+GET {{EmployeeAppApi_HostAddress}}/GetAllBlogPostAsync/
+Accept: application/json
+
+###
