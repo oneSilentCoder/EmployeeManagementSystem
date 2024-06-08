@@ -1,6 +1,8 @@
 using EmployeeAPP.Helper.Routing;
-using EmployeeAppServices.Defenitions;
-using EmployeeAppServices.Implementations;
+using EmployeeAppServices.Defenitions.BlogPost;
+using EmployeeAppServices.Defenitions.BlogUser;
+using EmployeeAppServices.Implementations.BlogPostService;
+using EmployeeAppServices.Implementations.BlogUserService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,17 +10,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 
+//==============================================================//
 //Dependancy Injection
+//==============================================================//
 
-//AddHttpClient is specifically designed for configuring and managing HttpClient instances, ensuring efficient resource use and enabling detailed configurations.
+//AddHttpClient is specifically designed for configuring and
+//managing HttpClient instances, ensuring efficient resource use
+//and enabling detailed configurations.
 
-//JsonPlaceHolderApi this is the name of the http client service. Using this name client service is created
+//JsonPlaceHolderApi this is the name of the http client service.
+//Using this name client service is created
 builder.Services.AddHttpClient<IBlogPostService, BlogPostService>("JsonPlaceHolderApi", client =>
 {
     client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
+builder.Services.AddHttpClient<IBlogUserService, BlogUserService>("JsonPlaceHolderApi", client =>
+{
+    client.BaseAddress = new Uri("https://jsonplaceholder.typicode.com/");
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
 builder.Services.AddScoped<IBlogPostService, BlogPostService>();
+builder.Services.AddScoped<IBlogUserService, BlogUserService>();
+//==============================================================//
 
 
 var app = builder.Build();

@@ -1,0 +1,75 @@
+﻿@model EmployeeAppModels.BlogUser.BlogUserModel
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-light bg-danger">
+                <h1>Blog User List</h1>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-sm table-primary table-borderless table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>id</th>
+                                <th>name</th>
+                                <th>username</th>
+                                <th>email</th>
+                                <th>address</th>
+                                <th>phone</th>
+                                <th>website</th>
+                                <th>company</th>
+                                <th>street</th>
+                                <th>suite</th>
+                                <th>city</th>
+                                <th>zipcode</th>
+                                <th>geo</th>
+                                <th>lat</th>
+                                <th>lng</th>
+                                <th>catchPhrase</th>
+                                <th>bs</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            @if (Model.BlogUserListView != null)
+                            {
+                                @foreach (var user in Model.BlogUserListView)
+                                {
+                                    <tr>
+                                        <td><a href="/BlogPost">Show Posts</a></td>
+                                        <td>@user.id</td>
+                                        <td>@user.name</td>
+                                        <td>@user.username</td>
+                                        <td>@user.email</td>
+                                        <td>@user.address</td>
+                                        <td>@user.phone</td>
+                                        <td>@user.website</td>
+                                        @* <td>@user.company</td> *@
+                        @*                 <td>@user.street</td>
+                                        <td>@user.suite</td>
+                                        <td>@user.city</td>
+                                        <td>@user.zipcode</td>
+                                        <td>@user.geo</td>
+                                        <td>@user.lat</td>
+                                        <td>@user.lng</td>
+                                        <td>@user.catchPhrase</td>
+                                        <td>@user.bs</td> *@
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td>No User available</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

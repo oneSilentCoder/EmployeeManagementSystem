@@ -15,6 +15,14 @@
             routeBuilder.MapControllerRoute("BlogPost", "BlogPost", new { Controller = "BlogPost", Action = "Index" });
 
             #endregion
+
+            #region BlogUser
+
+            routeBuilder.MapControllerRoute("BlogUser", "BlogUser", new { Controller = "BlogUser", Action = "Index" });
+
+            #endregion
+
+
             return routeBuilder;
         }
     }

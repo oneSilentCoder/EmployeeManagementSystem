@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeAppModels", "Employ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeAppServices", "EmployeeAppServices\EmployeeAppServices\EmployeeAppServices.csproj", "{B929DC92-64E3-40E2-A4BB-15308466D9CA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{85A8408C-4204-45F3-A962-052C55F526BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{9469DD8A-04FA-4D36-BAFB-9A2D6B3D92E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,6 +34,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4BDA5382-2D08-4701-8E3E-E9418881B16B} = {85A8408C-4204-45F3-A962-052C55F526BD}
+		{9C5F5AEF-4167-429F-85E5-0B134A5188E8} = {9469DD8A-04FA-4D36-BAFB-9A2D6B3D92E4}
+		{B929DC92-64E3-40E2-A4BB-15308466D9CA} = {9469DD8A-04FA-4D36-BAFB-9A2D6B3D92E4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4ED5F12D-4D7B-43D6-9EAF-0C9D08F6EF4C}

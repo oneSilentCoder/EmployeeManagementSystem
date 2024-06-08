@@ -1,5 +1,5 @@
-﻿using EmployeeAppModels;
-using EmployeeAppServices.Defenitions;
+﻿using EmployeeAppModels.BlogPost;
+using EmployeeAppServices.Defenitions.BlogPost;
 using EmployeeAppServices.Implementations;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;

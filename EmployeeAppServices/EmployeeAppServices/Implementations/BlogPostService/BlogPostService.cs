@@ -1,26 +1,23 @@
-﻿using EmployeeAppModels;
-using EmployeeAppServices.Defenitions;
+﻿using EmployeeAppModels.BlogPost;
+using EmployeeAppServices.Defenitions.BlogPost;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace EmployeeAppServices.Implementations
+namespace EmployeeAppServices.Implementations.BlogPostService
 {
     public class BlogPostService : IBlogPostService
-    {        
+    {
         #region Variable
-        public readonly HttpClient _httpClient;
+        private readonly HttpClient _httpClient;
+        private readonly ILogger<BlogPostService> _logger;
         #endregion
 
         #region Ctor
-        public BlogPostService(IHttpClientFactory httpClientFactory)
+        public BlogPostService(IHttpClientFactory httpClientFactory, ILogger<BlogPostService> logger)
         {
             //Creating client of JsonPlaceHolderApi in program.cs
             _httpClient = httpClientFactory.CreateClient("JsonPlaceHolderApi");
+            _logger = logger;
         }
         #endregion
 
@@ -28,16 +25,22 @@ namespace EmployeeAppServices.Implementations
         public async Task<BlogPostModel> GetAllBlogPostAsync()
         {
             try
-            {                
+            {
                 HttpResponseMessage response = await _httpClient.GetAsync("posts");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 var blogPostList = JsonConvert.DeserializeObject<List<BlogPostList>>(responseBody);
                 return new BlogPostModel { BlogPostListView = blogPostList };
             }
-            catch (Exception Ex)
+            catch (HttpRequestException e)
             {
-                throw;
+                _logger.LogError(e, "Request error: {Message}", e.Message);
+                throw new Exception("There was an error fetching the sunrise and sunset times. Please check your network connection and try again.");
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Unexpected error: {Message}", e.Message);
+                throw new Exception("An unexpected error occurred. Please try again later.");
             }
         }
         #endregion
