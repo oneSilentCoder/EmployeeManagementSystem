@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EmployeeAppModels\EmployeeAppModels\EmployeeAppModels.csproj" />
     <ProjectReference Include="..\EmployeeAppServices\EmployeeAppServices\EmployeeAppServices.csproj" />
+    <ProjectReference Include="..\EmployeeAppUtilities\EmployeeAppUtilities.csproj" />
   </ItemGroup>
 
 </Project>
