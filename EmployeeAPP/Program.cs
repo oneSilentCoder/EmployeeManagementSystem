@@ -1,9 +1,8 @@
 using EmployeeAPP.Helper.Routing;
-using EmployeeAppServices.Defenitions.BlogPost;
 using EmployeeAppServices.Defenitions.BlogUser;
-using EmployeeAppServices.Implementations.BlogPostService;
 using EmployeeAppServices.Implementations.BlogUserService;
 using EmployeeAppUtilities.Configuration;
+using EmployeeAppServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,17 +35,14 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //JsonPlaceHolderApi this is the name of the http client service.
 //Using this name client service is created
 //==============================================================//
-builder.Services.AddHttpClient<IBlogPostService, BlogPostService>("JsonPlaceHolderApi", client =>
-{
-    client.BaseAddress = new Uri(jsonPlaceholderBaseUrl);
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
+
+builder.Services.EmployeeAppServiceCollection(jsonPlaceholderBaseUrl);
+
 builder.Services.AddHttpClient<IBlogUserService, BlogUserService>("JsonPlaceHolderApi", client =>
 {
     client.BaseAddress = new Uri(jsonPlaceholderBaseUrl);
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
-builder.Services.AddScoped<IBlogPostService, BlogPostService>();
 builder.Services.AddScoped<IBlogUserService, BlogUserService>();
 //==============================================================//
 

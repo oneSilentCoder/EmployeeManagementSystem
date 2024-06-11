@@ -2,6 +2,7 @@
 using EmployeeAppServices.Defenitions.BlogPost;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace EmployeeAppServices.Implementations.BlogPostService
 {
@@ -13,10 +14,9 @@ namespace EmployeeAppServices.Implementations.BlogPostService
         #endregion
 
         #region Ctor
-        public BlogPostService(IHttpClientFactory httpClientFactory, ILogger<BlogPostService> logger)
+        public BlogPostService(HttpClient httpClient, ILogger<BlogPostService> logger)
         {
-            //Creating client of JsonPlaceHolderApi in program.cs
-            _httpClient = httpClientFactory.CreateClient("JsonPlaceHolderApi");
+            _httpClient = httpClient;
             _logger = logger;
         }
         #endregion
@@ -26,20 +26,28 @@ namespace EmployeeAppServices.Implementations.BlogPostService
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("posts");
-                response.EnsureSuccessStatusCode();
-                string responseBody = await response.Content.ReadAsStringAsync();
-                var blogPostList = JsonConvert.DeserializeObject<List<BlogPostList>>(responseBody);
-                return new BlogPostModel { BlogPostListView = blogPostList };
+                var Uri = _httpClient.BaseAddress;
+                if (Uri!=null)
+                {
+                    HttpResponseMessage response = await _httpClient.GetAsync("posts");
+                    response.EnsureSuccessStatusCode();
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    var blogPostList = JsonConvert.DeserializeObject<List<BlogPostList>>(responseBody);
+                    return new BlogPostModel { BlogPostListView = blogPostList }; 
+                }
+                else
+                {
+                    return new BlogPostModel { BlogPostListView = null };
+                }
             }
             catch (HttpRequestException e)
             {
-                _logger.LogError(e, "Request error: {Message}", e.Message);
+                _logger.LogError(e, "Request error: {Message} " + e.Message);
                 throw new Exception("There was an error fetching the sunrise and sunset times. Please check your network connection and try again.");
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error: {Message}", e.Message);
+                _logger.LogError(e, "Main catch error: {Message} " + e.Message);
                 throw new Exception("An unexpected error occurred. Please try again later.");
             }
         }

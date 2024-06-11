@@ -9,22 +9,26 @@
                 <h1>Blog Posts</h1>
             </div>
             <div class="col-12">
-                <ul>
+                <dl>
                     @if (Model.BlogPostListView != null)
                     {
                         @foreach (var post in Model.BlogPostListView)
                         {
-                            <li>
-                                <strong>Title:</strong> @post.title<br />
-                                <strong>Body:</strong> @post.body
-                            </li>
+                            <dt class="h5">
+                                @post.title
+                            </dt>
+                            <hr />
+                            <dd class="ms-5 mb-2">
+                                @post.body
+                            </dd>
                         }
                     }
                     else
                     {
-                        <li>No blog posts available.</li>
+                        <dt>No blog posts available.</dt>
                     }
-                </ul>
+                </dl>
+                
             </div>
         </div>
     </div>
