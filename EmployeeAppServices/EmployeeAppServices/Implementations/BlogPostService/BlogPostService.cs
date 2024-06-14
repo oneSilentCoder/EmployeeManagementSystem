@@ -22,14 +22,14 @@ namespace EmployeeAppServices.Implementations.BlogPostService
         #endregion
 
         #region Get All Post API
-        public async Task<BlogPostModel> GetAllBlogPostAsync()
+        public async Task<BlogPostModel> GetAllBlogPostAsync(BlogPostList ObjBlogPostList)
         {
             try
             {
                 var Uri = _httpClient.BaseAddress;
                 if (Uri!=null)
                 {
-                    HttpResponseMessage response = await _httpClient.GetAsync("posts");
+                    HttpResponseMessage response = await _httpClient.GetAsync("posts/?userId="+ ObjBlogPostList.userId);
                     response.EnsureSuccessStatusCode();
                     string responseBody = await response.Content.ReadAsStringAsync();
                     var blogPostList = JsonConvert.DeserializeObject<List<BlogPostList>>(responseBody);

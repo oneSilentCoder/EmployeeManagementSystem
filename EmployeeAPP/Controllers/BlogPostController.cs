@@ -21,9 +21,10 @@ namespace EmployeeAPP.Controllers
         }
         #endregion
 
-        public async Task<IActionResult> Index()
-        {
-            BlogPostModel ObjBlogPostModel = await _BlogPostService.GetAllBlogPostAsync();
+        //[FromQuery] is an attribute in ASP.NET Core used to indicate that a parameter should be bound from the query string of the request URL. 
+        public async Task<IActionResult> Index([FromQuery] BlogPostList ObjBlogPostList)
+        {           
+            BlogPostModel ObjBlogPostModel = await _BlogPostService.GetAllBlogPostAsync(ObjBlogPostList);
             return View(ObjBlogPostModel);
         }
     }

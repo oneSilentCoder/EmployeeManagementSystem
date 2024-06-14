@@ -29,7 +29,9 @@
                                 @foreach (var user in Model.BlogUserListView)
                                 {
                                     <tr>
-                                        <td><a href="/BlogPost">Show Posts</a></td>
+                                       @* Syntax of url action
+                                       @Url.Action(actionName, controllerName, routeValues, protocol, hostName, fragment) *@
+                                        <td><a href="@Url.Action("Index","BlogPost",new{UserId = @user.id})">Show Posts</a></td>
                                         <td>@user.id</td>
                                         <td>@user.name</td>
                                         <td>@user.username</td>
