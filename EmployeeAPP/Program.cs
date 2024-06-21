@@ -18,7 +18,10 @@ var configuration = configurationBuilder.Build();
 builder.Configuration.AddConfiguration(configuration);
 
 // Register HttpClient with base URL from custom configuration
-var jsonPlaceholderBaseUrl = configuration["JsonPlaceholder:BaseUrl"];
+var ApiBaseUrl = configuration["JsonPlaceholder:BaseUrl"];
+var DummyApiBaseUrl = configuration["DummyApi:BaseUri"];
+var DummyApiAppId = configuration["DummyApi:AppId"];
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -32,18 +35,13 @@ builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 //managing HttpClient instances, ensuring efficient resource use
 //and enabling detailed configurations.
 
-//JsonPlaceHolderApi this is the name of the http client service.
+//ApiBaseUrl this is the name of the http client service.
 //Using this name client service is created
 //==============================================================//
 
-builder.Services.EmployeeAppServiceCollection(jsonPlaceholderBaseUrl);
+builder.Services.EmployeeAppServiceCollection(ApiBaseUrl);
+builder.Services.EmployeeAppDummyServiceCollection(DummyApiBaseUrl, DummyApiAppId);
 
-builder.Services.AddHttpClient<IBlogUserService, BlogUserService>("JsonPlaceHolderApi", client =>
-{
-    client.BaseAddress = new Uri(jsonPlaceholderBaseUrl);
-    client.DefaultRequestHeaders.Add("Accept", "application/json");
-});
-builder.Services.AddScoped<IBlogUserService, BlogUserService>();
 //==============================================================//
 
 

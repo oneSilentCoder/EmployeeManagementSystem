@@ -22,7 +22,9 @@
 
             #endregion
 
-
+            #region Blog Dummy User
+            routeBuilder.MapControllerRoute("BlogDummyUser", "BlogDummyUser", new { Controller = "BlogDummyUser", Action = "Index" });
+            #endregion
             return routeBuilder;
         }
     }

@@ -43,7 +43,7 @@ namespace EmployeeAppServices.Implementations.BlogPostService
             catch (HttpRequestException e)
             {
                 _logger.LogError(e, "Request error: {Message} " + e.Message);
-                throw new Exception("There was an error fetching the sunrise and sunset times. Please check your network connection and try again.");
+                throw new Exception("There was an error fetching data. Please check your network connection and try again.");
             }
             catch (Exception e)
             {

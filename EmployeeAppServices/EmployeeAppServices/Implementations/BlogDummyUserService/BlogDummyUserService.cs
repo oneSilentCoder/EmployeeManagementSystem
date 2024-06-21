@@ -1,36 +1,41 @@
-﻿using EmployeeAppModels.BlogUser;
+﻿using EmployeeAppModels.BlogDummyUser;
+using EmployeeAppServices.Defenitions.BlogDummyUser;
 using EmployeeAppServices.Defenitions.BlogUser;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace EmployeeAppServices.Implementations.BlogUserService
+namespace EmployeeAppServices.Implementations.BlogDummyUserService
 {
-    public class BlogUserService : IBlogUserService
+    public class BlogDummyUserService : IBlogDummyUserService
     {
-        #region Variable
+        #region Variable Declaration
         private readonly HttpClient _httpClient;
-        private readonly ILogger<BlogUserService> _logger;
+        private readonly ILogger<BlogDummyUserService> _logger;
         #endregion
 
         #region Ctor
-        public BlogUserService(HttpClient httpClient, ILogger<BlogUserService> logger)
+        public BlogDummyUserService (HttpClient httpClient , ILogger<BlogDummyUserService> logger)
         {
-            //Creating client of JsonPlaceHolderApi in program.cs
             _httpClient = httpClient;
             _logger = logger;
         }
         #endregion
 
         #region Get User Api
-        public async Task<BlogUserModel> GetAllBlogUserAsync()
+        public async Task<BlogDummyUserModel> GetAllBlogUserAsync()
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync("users");
+                HttpResponseMessage response = await _httpClient.GetAsync("user");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
-                var blogUserList = JsonConvert.DeserializeObject<List<BlogUserList>>(responseBody);
-                return new BlogUserModel { BlogUserListView = blogUserList };
+                var blogDummyUserList = JsonConvert.DeserializeObject<BlogDummyUserModel>(responseBody);
+                return blogDummyUserList;
             }
             catch (HttpRequestException e)
             {
@@ -43,7 +48,6 @@ namespace EmployeeAppServices.Implementations.BlogUserService
                 throw new Exception("An unexpected error occurred. Please try again later.");
             }
         }
-
         #endregion
     }
 }

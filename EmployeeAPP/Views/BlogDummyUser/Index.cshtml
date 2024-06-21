@@ -1,0 +1,39 @@
+﻿@model EmployeeAppModels.BlogDummyUser.BlogDummyUserModel
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-light bg-danger">
+                <h1>Blog Dummy IO api User List</h1>
+            </div>
+            <div class="col-12">
+                <div class="table-responsive">
+                    <table class="table table-sm table-striped table-dark table-hover ">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Profile Pic</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(Model.data != null)
+                            {
+                                @foreach(var user in Model.data)
+                                {
+                                    <tr>
+                                        <td>Show Posts</td>
+                                        <td>@user.title<span>.</span>@user.firstName &nbsp; @user.lastName</td>
+                                        <td><img src="@user.picture" /></td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
