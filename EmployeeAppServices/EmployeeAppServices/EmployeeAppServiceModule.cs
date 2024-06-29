@@ -1,6 +1,8 @@
-﻿using EmployeeAppServices.Defenitions.BlogDummyUser;
+﻿using EmployeeAppServices.Defenitions.BlogDummy;
+using EmployeeAppServices.Defenitions.BlogDummyUser;
 using EmployeeAppServices.Defenitions.BlogPost;
 using EmployeeAppServices.Defenitions.BlogUser;
+using EmployeeAppServices.Implementations.BlogDummyServices;
 using EmployeeAppServices.Implementations.BlogDummyUserService;
 using EmployeeAppServices.Implementations.BlogPostService;
 using EmployeeAppServices.Implementations.BlogUserService;
@@ -50,6 +52,13 @@ namespace EmployeeAppServices
                 var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
                 var logger = provider.GetRequiredService<ILogger<BlogDummyUserService>>();
                 return new BlogDummyUserService(httpClientFactory.CreateClient("DummyApiBaseUrl"), logger);
+            });
+
+            services.AddScoped<IBlogDummyPostService, BlogDummyUserPostService>(provider =>
+            {
+                var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
+                var logger = provider.GetRequiredService<ILogger<BlogDummyUserPostService>>();
+                return new BlogDummyUserPostService(httpClientFactory.CreateClient("DummyApiBaseUrl"), logger);
             });
             return services;
         }

@@ -1,18 +1,69 @@
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    font-size: 14px;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+/* Smartphones (portrait and landscape) */
+@media (max-width: 480px) {
+    .w-sm-10 {
+        width: 10%;
+    }
+}
+
+/* Smartphones (portrait) */
+@media (max-width: 320px) {
+    /* Your styles here */
+}
+/* Tablets (portrait and landscape) */
+@media (min-width: 481px) and (max-width: 768px) {
+    /* Your styles here */
+}
+
+/* Tablets (portrait) */
+@media (min-width: 481px) and (max-width: 600px) {
+    /* Your styles here */
+}
+
+/* Tablets (landscape) */
+@media (min-width: 601px) and (max-width: 768px) {
+    /* Your styles here */
+}
+/* Small screens (landscape phones) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    html {
+        font-size: 16px;
+    }    
+}
+
+/* Medium screens (tablets) */
+@media (min-width: 1025px) and (max-width: 1200px) {
+    
+}
+
+/* Large screens (desktops) */
+@media (min-width: 1201px) {
+    .w-lg-4 {
+        width: 4%;
+    }
+}
+/* Portrait */
+@media (orientation: portrait) {
+    /* Your styles here */
+}
+
+/* Landscape */
+@media (orientation: landscape) {
+    /* Your styles here */
+}
+/* Retina display */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* Your styles here */
 }

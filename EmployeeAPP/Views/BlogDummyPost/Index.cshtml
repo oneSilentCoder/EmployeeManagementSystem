@@ -1,0 +1,55 @@
+﻿@model EmployeeAppModels.BlogDummy.BlogDummyUserPostModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+@* can be used for pagination -> https://learn.microsoft.com/en-us/aspnet/core/mvc/views/tag-helpers/built-in/anchor-tag-helper?view=aspnetcore-8.0
+    @{
+    var parms = new Dictionary<string, string>
+            {
+                { "speakerId", "11" },
+                { "currentYear", "true" }
+            };
+}
+
+<a asp-route="speakerevalscurrent"
+   asp-all-route-data="parms">Speaker Evaluations</a>
+ *@
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-light bg-danger">
+                <h1>Blog Posts</h1>
+            </div>
+            <div class="col-12">
+                @if (Model.data != null)
+                {
+                    @foreach (var post in Model.data)
+                    {
+                        <div class="mb-2">
+                            <img src="@post.owner.picture" class="img-fluid rounded-circle w-sm-10 w-lg-4" alt="@post.owner.firstName" />
+                            <span>@post.owner.firstName&nbsp;@post.owner.lastName</span>
+                        </div>
+                        <div class="col-12">
+                            <img src="@post.image" class="img-fluid rounded-top d-block ms-auto me-auto" alt="@post.text" />
+                        </div>
+                        <div>
+                            <p class="fs-6 mb-1">@post.text</p>
+                            @foreach (var tags in @post.tags)
+                            {
+                                <span class="fst-italic text-secondary">#@tags&nbsp;</span>
+                            }
+                            <p class="fst-italic text-secondary text-sm-start">@post.publishDate</p>
+                            <span><i class="fa-regular fa-heart text-danger"></i>&nbsp;@post.likes</span>
+                        </div>
+                        <hr />
+                    }
+                }
+                else
+                {
+                    <div class="h6">No blog posts available.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

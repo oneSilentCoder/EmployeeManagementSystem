@@ -11,11 +11,12 @@
             #endregion
 
             #region BlogPost
-
             routeBuilder.MapControllerRoute("BlogPost", "BlogPost", new { Controller = "BlogPost", Action = "Index" });
-
             #endregion
 
+            #region Blog Dummy User
+            routeBuilder.MapControllerRoute("BlogDummyPost", "BlogDummyPost", new { Controller = "BlogDummyPost", Action = "Index" });
+            #endregion
             #region BlogUser
 
             routeBuilder.MapControllerRoute("BlogUser", "BlogUser", new { Controller = "BlogUser", Action = "Index" });

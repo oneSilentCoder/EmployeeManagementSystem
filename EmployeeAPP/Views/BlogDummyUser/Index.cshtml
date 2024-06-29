@@ -2,38 +2,41 @@
 @{
     ViewData["Title"] = "Index";
 }
+<style>
+    .profilePic {
+        max-width: 72px;
+    }
+</style>
 <div class="container-fluid">
     <div class="container">
         <div class="row">
             <div class="col-12 bg-light bg-danger">
                 <h1>Blog Dummy IO api User List</h1>
             </div>
-            <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-sm table-striped table-dark table-hover ">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Profile Pic</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(Model.data != null)
-                            {
-                                @foreach(var user in Model.data)
-                                {
-                                    <tr>
-                                        <td>Show Posts</td>
-                                        <td>@user.title<span>.</span>@user.firstName &nbsp; @user.lastName</td>
-                                        <td><img src="@user.picture" /></td>
-                                    </tr>
-                                }
-                            }
-                        </tbody>
-                    </table>
-                </div>
+            <div class="col-12 mb-3">
+                <a href="@Url.Action("Index","BlogDummyPost",new{Page=1,Limit = 5})" class="btn btn-sm btn-success">Show all posts</a>
             </div>
+            @if (Model.data != null)
+            {
+                @foreach (var user in Model.data)
+                {
+                    <div class="col-4">
+                        <div class="card mb-3">
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    <img src="@user.picture" class="profilePic img-fluid rounded-start">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body pt-1 pb-1">
+                                        <h6 class="card-title">@(char.ToUpper(@user.title[0]) + @user.title.Substring(1))<span>.&nbsp;</span>@user.firstName&nbsp;@user.lastName</h6>
+                                        <a href="@Url.Action("Index","BlogDummyPost",new{UserId=user.id,Page=1,Limit = 3})" class="btn btn-sm btn-success">Show Posts</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
         </div>
     </div>
 </div>
