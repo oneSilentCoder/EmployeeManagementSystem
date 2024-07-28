@@ -51,8 +51,8 @@ namespace EmployeeAppServices.Implementations.BlogDummyServices
                         //The UriBuilder class includes the port by default when the scheme is HTTPS. If you don't want to include the port number in the URL, you can explicitly set the port to -1 in the UriBuilder.
                         Port = -1
                     };
-                }
-                
+                }              
+               
                 var query = HttpUtility.ParseQueryString(builder.Query);
                 query["limit"] = ObjBlogDummyUserPostRequest.Limit.ToString();
                 query["page"] = ObjBlogDummyUserPostRequest.Page.ToString();
@@ -63,6 +63,28 @@ namespace EmployeeAppServices.Implementations.BlogDummyServices
                 string responseBody = await response.Content.ReadAsStringAsync();
                 //Exclamation mark is used for managing null
                 BlogDummyUserPostModel ObjBlogDummyUserPostModel = JsonConvert.DeserializeObject<BlogDummyUserPostModel>(responseBody)!;
+
+                //Fetching Comments of the post fetched using the post id
+                //foreach (var UserPostList in ObjBlogDummyUserPostModel.data)
+                //{
+                //    string UserPostId = UserPostList.id;
+                //    BaseUri = new Uri(_httpClient.BaseAddress!, $"post/"+ UserPostId + "/comment");
+                //    builder = new UriBuilder(BaseUri)
+                //    {
+                //        Port = -1
+                //    };
+                //    var CommentQuery = HttpUtility.ParseQueryString(builder.Query);
+                //    builder.Query = CommentQuery.ToString();
+                //    HttpResponseMessage CommentResponse = await _httpClient.GetAsync(builder.ToString());
+                //    response.EnsureSuccessStatusCode();
+                //    string CommentResponseBody = await CommentResponse.Content.ReadAsStringAsync();
+                //    // Use a temporary wrapper to deserialize the comments
+                //    var tempCommentWrapper = JsonConvert.DeserializeObject<BlogDummyCommentListView>(CommentResponseBody);
+                //    UserPostList.data = tempCommentWrapper; // Assign the comments to the Data property
+
+                //    //ObjBlogDummyUserPostModel.data = JsonConvert.DeserializeObject<BlogDummyCommentListView[]>(CommentResponseBody)!;
+                //}              
+
                 return ObjBlogDummyUserPostModel;
 
             }

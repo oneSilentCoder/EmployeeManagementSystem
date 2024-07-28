@@ -8,13 +8,13 @@ namespace EmployeeAppModels.BlogDummyUser
 {
     public class BlogDummyUserModel
     {
-        public BlogDummyUserList[]? data { get; set; }
+        public BlogDummyUserListView[]? data { get; set; }
         public int total { get; set; }
         public int page { get; set; }
         public int limit { get; set; }
     }
 
-    public class BlogDummyUserList
+    public class BlogDummyUserListView
     {
         public string id { get; set; }
         public string title { get; set; }

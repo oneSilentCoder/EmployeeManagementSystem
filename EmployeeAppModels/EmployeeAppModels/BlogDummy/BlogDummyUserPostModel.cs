@@ -9,12 +9,12 @@ namespace EmployeeAppModels.BlogDummy
 {
     public class BlogDummyUserPostModel
     {
-        public BlogDummyUserPostList[]? data { get; set; }
+        public BlogDummyUserPostListView[]? data { get; set; }
         public int total { get; set; }
         public int page { get; set; }
         public int limit { get; set; }
     }
-    public class BlogDummyUserPostList
+    public class BlogDummyUserPostListView
     {
         public string? id { get; set; }
         public string? image { get; set; }
@@ -22,7 +22,11 @@ namespace EmployeeAppModels.BlogDummy
         public string[]? tags { get; set; }
         public string? text { get; set; }
         public DateTime publishDate { get; set; }
-        public BlogDummyUserList? owner { get; set; }
+        public BlogDummyUserListView? owner { get; set; }
+        public BlogDummyCommentListView[]? data { get; set; }
+        public int total { get; set; }
+        public int page { get; set; }
+        public int limit { get; set; }
     }
 
     public class BlogDummyUserPostRequest
@@ -31,4 +35,13 @@ namespace EmployeeAppModels.BlogDummy
         public int Page { get; set; }
         public int Limit { get; set; }
     }
-}
+
+    public class BlogDummyCommentListView
+    {
+        public string? id { get; set; }
+        public string? message { get; set; }
+        public BlogDummyUserListView? owner { get; set; }
+        public string? post { get; set; }
+        public DateTime? publishDate { get; set; }
+    }
+} 
